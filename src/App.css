@@ -10,4 +10,5 @@
   margin: 1rem 0;
   min-width: 320px;
   width: 100%;
+  overscroll-behavior: contain;
 }
