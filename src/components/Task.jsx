@@ -20,6 +20,8 @@ export default function Task({ title, state }) {
   const taskRef = useRef(null);
   function dragStart(e) {
     setDragging(true);
+  }
+  function drag(e) {
     document.body.style.overflow = "hidden";
     // move task with mouse pointer
     setTaskStyle({
@@ -51,9 +53,7 @@ export default function Task({ title, state }) {
     } else {
       setDroppable(null);
     }
-  }
-  function drag(e) {
-    // e.preventDefault();
+    e.stopPropagation();
   }
   function dropped(e) {
     document.body.style.overflow = "auto";
@@ -84,7 +84,7 @@ export default function Task({ title, state }) {
         setDraggedTask(task.title);
       }}
       onTouchStart={dragStart}
-      // onTouchMove={drag}
+      onTouchMove={drag}
       onTouchEnd={dropped}
       style={taskStyle}
     >
