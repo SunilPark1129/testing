@@ -14,7 +14,10 @@ export default function Transport({ state }) {
   const unmounted = useRef(true);
 
   useEffect(() => {
+    console.log("started");
     if (!unmounted.current) {
+      console.log("mounted");
+      console.log(plannedRef);
       const one = [plannedRef, ongoingRef, doneRef].map((item, idx) => {
         return [
           {
