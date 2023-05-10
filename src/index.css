@@ -1,9 +1,9 @@
 :root {
   --COLOR-GRAY: #333333;
   --COLOR-GRAY-DARK: #222222;
-  --COLOR-GRAY-LIGHT: #cccccc;
-  --COLOR-ONGOING: #d99c98;
-  --COLOR-DONE: #6df38a;
+  --COLOR-GRAY-LIGHT: #d99c98;
+  --COLOR-ONGOING: #e6de98;
+  --COLOR-DONE: #7dd690;
   font-family: Arial, Helvetica, sans-serif;
 }
 
