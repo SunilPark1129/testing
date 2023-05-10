@@ -15,36 +15,30 @@ export default function Transport({ state }) {
 
   useEffect(() => {
     console.log("started");
-    if (!unmounted.current) {
-      console.log("mounted");
-      console.log(plannedRef);
-      const one = [plannedRef, ongoingRef, doneRef].map((item, idx) => {
-        return [
-          {
-            state: state[idx],
-            height: item.current.offsetHeight,
-            width: 100,
-            top:
-              parentRef.current.offsetTop -
-              parentRef.current.offsetHeight / 2 +
-              item.current.offsetTop,
-            bottom:
-              parentRef.current.offsetTop -
-              parentRef.current.offsetHeight / 2 +
-              item.current.offsetTop +
-              item.current.offsetHeight,
-          },
-        ];
-      });
-      setRefAddress({
-        plannedRef: one[0],
-        ongoingRef: one[1],
-        doneRef: one[2],
-      });
-    }
-    return () => {
-      unmounted.current = false;
-    };
+    console.log(plannedRef);
+    const one = [plannedRef, ongoingRef, doneRef].map((item, idx) => {
+      return [
+        {
+          state: state[idx],
+          height: item.current.offsetHeight,
+          width: 100,
+          top:
+            parentRef.current.offsetTop -
+            parentRef.current.offsetHeight / 2 +
+            item.current.offsetTop,
+          bottom:
+            parentRef.current.offsetTop -
+            parentRef.current.offsetHeight / 2 +
+            item.current.offsetTop +
+            item.current.offsetHeight,
+        },
+      ];
+    });
+    setRefAddress({
+      plannedRef: one[0],
+      ongoingRef: one[1],
+      doneRef: one[2],
+    });
   }, []);
 
   return (
