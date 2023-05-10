@@ -4,6 +4,8 @@ import { persist } from "zustand/middleware";
 const store = (set) => ({
   tasks: [],
   draggedTask: null,
+  refAddress: null,
+  setRefAddress: (title) => set({ refAddress: title }),
   addTask: (title, state) =>
     set((store) => ({ tasks: [...store.tasks, { title, state }] })),
   deleteTask: (title) =>

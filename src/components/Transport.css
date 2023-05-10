@@ -1,0 +1,36 @@
+.transport {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  /* left: 50%; */
+  transform: translateY(-50%);
+  /* bottom: 3rem; */
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  /* width: 100%; */
+  /* justify-content: space-around; */
+  max-width: 30rem;
+}
+
+.transport__child {
+  width: 5rem;
+  height: 5rem;
+  background-color: white;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.transport__child.--planned {
+  background-color: var(--COLOR-GRAY-LIGHT);
+}
+
+.transport__child.--ongoing {
+  background-color: var(--COLOR-ONGOING);
+}
+
+.transport__child.--done {
+  background-color: var(--COLOR-DONE);
+}

@@ -1,11 +1,14 @@
 import "./App.css";
 import Column from "./components/Column";
+import Transport from "./components/Transport";
 function App() {
+  const state = ["PLANNED", "ONGOING", "DONE"];
   return (
     <div className="App">
-      <Column state="PLANNED" />
-      <Column state="ONGOING" />
-      <Column state="DONE" />
+      {state.map((item) => (
+        <Column state={item} key={item} />
+      ))}
+      <Transport state={state} />
     </div>
   );
 }
