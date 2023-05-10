@@ -2,12 +2,12 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
 const store = (set) => ({
+  refAddress: null,
+  setRefAddress: (title) => set({ refAddress: title }),
   tasks: [],
   draggedTask: null,
-  refAddress: null,
   droppable: null,
   isDragging: false,
-  setRefAddress: (title) => set({ refAddress: title }),
   addTask: (title, state) =>
     set((store) => ({ tasks: [...store.tasks, { title, state }] })),
   deleteTask: (title) =>
