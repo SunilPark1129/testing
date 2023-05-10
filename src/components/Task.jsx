@@ -33,20 +33,24 @@ export default function Task({ title }) {
       left: e.touches[0].clientX - taskRef.current.clientWidth / 2,
       top: e.touches[0].clientY - taskRef.current.clientHeight / 2,
     });
-    console.log(
-      "task left:",
-      e.target.getBoundingClientRect().left +
-        e.target.getBoundingClientRect().width
-    );
-    console.log("refs1 left:", refAddress.doneRef[0].left);
-    console.log(
-      "refs1 right:",
-      refAddress.doneRef[0].left + refAddress.doneRef[0].width
-    );
+    // console.log(e);
+    // console.log(
+    //   "task left:",
+    //   e.target.getBoundingClientRect().left +
+    //     e.target.getBoundingClientRect().width
+    // );
+    // console.log("refs1 left:", refAddress.doneRef[0].left);
+    // console.log(
+    //   "refs1 right:",
+    //   refAddress.doneRef[0].left + refAddress.doneRef[0].width
+    // );
     // console.log(
     //   "refs2 left:",
     //   refAddress.ongoingRef[0].left + refAddress.ongoingRef[0].width
     // );
+
+    console.log(e.changedTouches[0].clientX);
+    console.log("refs1 left:", refAddress.doneRef[0].left);
 
     if (
       taskStyle.left >
@@ -64,9 +68,9 @@ export default function Task({ title }) {
   }
   function dropped(e) {
     if (isDragging) {
-      console.log("task:", taskStyle.left);
-      console.log("ref:", refAddress.ongoingRef[0].left);
-
+      // console.log(e.changed);
+      // console.log("task:", taskStyle.left);
+      // console.log("ref:", refAddress.ongoingRef[0].left);
       // if (
       //   taskStyle.left < refAddress.ongoingRef[0].left &&
       //   taskStyle.left <
