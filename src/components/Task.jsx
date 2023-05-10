@@ -1,86 +1,78 @@
 import classNames from "classnames";
 import "./Task.css";
 import { useStore } from "../store";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 
-export default function Task({ title }) {
+export default function Task({ title, state }) {
   const task = useStore((store) =>
     store.tasks.find((task) => task.title === title)
   );
   const refAddress = useStore((store) => store.refAddress);
   const setDraggedTask = useStore((store) => store.setDraggedTask);
   const deleteTask = useStore((store) => store.deleteTask);
+  const setDroppable = useStore((store) => store.setDroppable);
+  const setDragging = useStore((store) => store.setDragging);
+  const moveTask = useStore((store) => store.moveTask);
+  const draggedTask = useStore((store) => store.draggedTask);
 
-  const [isDragging, setDragging] = useState(false);
   const [taskStyle, setTaskStyle] = useState({});
 
   const taskRef = useRef(null);
-
-  function handle(e) {
-    console.log(e);
-    console.log("hi");
-  }
   function dragStart(e) {
     setDragging(true);
-    // console.log("taskStyle Left:", taskStyle.left);
-    // console.log(refAddress);
   }
   function drag(e) {
+    document.body.style.overflow = "hidden";
+    // move task with mouse pointer
     setTaskStyle({
       position: "absolute",
-      targetLeft: e.touches[0].clientX,
-      targetTop: e.touches[0].clientY,
-      left: e.touches[0].clientX - taskRef.current.clientWidth / 2,
-      top: e.touches[0].clientY - taskRef.current.clientHeight / 2,
+      left: e.changedTouches[0].clientX - taskRef.current.clientWidth / 2,
+      top: e.changedTouches[0].pageY - taskRef.current.clientHeight / 2,
     });
-    // console.log(e);
-    // console.log(
-    //   "task left:",
-    //   e.target.getBoundingClientRect().left +
-    //     e.target.getBoundingClientRect().width
-    // );
-    // console.log("refs1 left:", refAddress.doneRef[0].left);
-    // console.log(
-    //   "refs1 right:",
-    //   refAddress.doneRef[0].left + refAddress.doneRef[0].width
-    // );
-    // console.log(
-    //   "refs2 left:",
-    //   refAddress.ongoingRef[0].left + refAddress.ongoingRef[0].width
-    // );
 
-    console.log(e.changedTouches[0].clientX);
-    console.log("refs1 left:", refAddress.doneRef[0].left);
-
+    const curPosX = e.changedTouches[0].clientX;
+    const curPosY = e.changedTouches[0].clientY;
     if (
-      taskStyle.left >
-        refAddress.ongoingRef[0].left - refAddress.ongoingRef[0].width / 2 &&
-      taskStyle.left <
-        refAddress.ongoingRef[0].left + refAddress.ongoingRef[0].width / 2 &&
-      taskStyle.top > refAddress.ongoingRef[0].top &&
-      taskStyle.top <
-        refAddress.ongoingRef[0].top + refAddress.ongoingRef[0].height
+      refAddress.plannedRef[0].top < curPosY &&
+      curPosY < refAddress.plannedRef[0].bottom &&
+      window.innerWidth - refAddress.plannedRef[0].width < curPosX
     ) {
-      console.log("yes");
+      setDroppable("PLANNED");
+    } else if (
+      refAddress.ongoingRef[0].top < curPosY &&
+      curPosY < refAddress.ongoingRef[0].bottom &&
+      window.innerWidth - refAddress.ongoingRef[0].width < curPosX
+    ) {
+      setDroppable("ONGOING");
+    } else if (
+      refAddress.doneRef[0].top < curPosY &&
+      curPosY < refAddress.doneRef[0].bottom &&
+      window.innerWidth - refAddress.doneRef[0].width < curPosX
+    ) {
+      setDroppable("DONE");
+    } else {
+      setDroppable(null);
     }
-    // console.log("task:", taskStyle.left);
-    // console.log("ref:", refAddress.ongoingRef[0].left);
   }
   function dropped(e) {
-    if (isDragging) {
-      // console.log(e.changed);
-      // console.log("task:", taskStyle.left);
-      // console.log("ref:", refAddress.ongoingRef[0].left);
-      // if (
-      //   taskStyle.left < refAddress.ongoingRef[0].left &&
-      //   taskStyle.left <
-      //     refAddress.ongoingRef[0].left + refAddress.ongoingRef[0].width
-      // ) {
-      //   console.log("yes");
-      // }
-    }
-    setDragging(false);
+    document.body.style.overflow = "auto";
+    const curPosX = e.changedTouches[0].clientX;
+    const curPosY = e.changedTouches[0].clientY;
+    Object.values(refAddress).forEach((items) => {
+      const item = items[0];
+      if (
+        item.top < curPosY &&
+        curPosY < item.bottom &&
+        window.innerWidth - item.width < curPosX
+      ) {
+        if (state === item.state) return;
+        moveTask(task.title, item.state);
+      }
+    });
+    setDraggedTask(null);
+    setDroppable(null);
     setTaskStyle({});
+    setDragging(false);
   }
   return (
     <div

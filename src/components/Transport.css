@@ -1,36 +1,52 @@
 .transport {
-  position: absolute;
+  position: fixed;
   right: 0;
   top: 50%;
-  /* left: 50%; */
   transform: translateY(-50%);
-  /* bottom: 3rem; */
   display: flex;
   flex-direction: column;
   gap: 2rem;
-  /* width: 100%; */
-  /* justify-content: space-around; */
   max-width: 30rem;
+  transform: translate(100%, -50%);
+  transition-property: transform, opacity;
+  transition-duration: 0.3s;
+  opacity: 0.5;
+}
+
+.transport.actived {
+  transform: translate(0, -50%);
+  opacity: 1;
 }
 
 .transport__child {
-  width: 5rem;
-  height: 5rem;
+  font-size: 0.8rem;
+  width: 100px;
+  height: 4rem;
   background-color: white;
-  border-radius: 50%;
+  /* border-radius: 50%; */
+  border-top-left-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
   display: flex;
   justify-content: center;
   align-items: center;
+  border: 4px solid transparent;
+  opacity: 0.6;
+  /* pointer-events: auto; */
 }
 
-.transport__child.--planned {
+.transport__child.-planned {
   background-color: var(--COLOR-GRAY-LIGHT);
 }
 
-.transport__child.--ongoing {
+.transport__child.-ongoing {
   background-color: var(--COLOR-ONGOING);
 }
 
-.transport__child.--done {
+.transport__child.-done {
   background-color: var(--COLOR-DONE);
+}
+
+.transport__child.--droppable {
+  border: 4px solid #fff;
+  opacity: 1;
 }

@@ -5,6 +5,8 @@ const store = (set) => ({
   tasks: [],
   draggedTask: null,
   refAddress: null,
+  droppable: null,
+  isDragging: false,
   setRefAddress: (title) => set({ refAddress: title }),
   addTask: (title, state) =>
     set((store) => ({ tasks: [...store.tasks, { title, state }] })),
@@ -12,7 +14,9 @@ const store = (set) => ({
     set((store) => ({
       tasks: store.tasks.filter((task) => task.title !== title),
     })),
+  setDragging: (title) => set({ isDragging: title }),
   setDraggedTask: (title) => set({ draggedTask: title }),
+  setDroppable: (title) => set({ droppable: title }),
   moveTask: (title, state) =>
     set((store) => ({
       tasks: store.tasks.map((task) =>

@@ -2,8 +2,8 @@
   --COLOR-GRAY: #333333;
   --COLOR-GRAY-DARK: #222222;
   --COLOR-GRAY-LIGHT: #cccccc;
-  --COLOR-ONGOING: #98c1d9;
-  --COLOR-DONE: #ee6c4d;
+  --COLOR-ONGOING: #d99c98;
+  --COLOR-DONE: #6df38a;
   font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -13,7 +13,7 @@
   box-sizing: border-box;
 }
 
-html,
 body {
-  overflow: hidden;
+  overflow: auto;
+  background: var(--COLOR-GRAY);
 }

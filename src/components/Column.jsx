@@ -40,7 +40,7 @@ export default function Column({ state }) {
         <button onClick={() => setOpen(true)}>Add</button>
       </div>
       {tasks.map((task) => {
-        return <Task title={task.title} key={task.title} />;
+        return <Task title={task.title} key={task.title} state={state} />;
       })}
       {open && (
         <div className="Modal">
