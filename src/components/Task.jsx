@@ -21,7 +21,7 @@ export default function Task({ title, state }) {
       longtapTimer = setTimeout(() => {
         setAction(true);
         setLongtap({ title: task.title, state: state });
-      }, 1000);
+      }, 500);
     }
     if (hasAction) {
       clearTimeout(longtapTimer);
