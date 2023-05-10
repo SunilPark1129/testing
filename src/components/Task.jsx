@@ -3,35 +3,68 @@ import "./Task.css";
 import { useStore } from "../store";
 import { useState, useRef, useEffect } from "react";
 
+let longtapTimer;
 export default function Task({ title, state }) {
   const task = useStore((store) =>
     store.tasks.find((task) => task.title === title)
   );
   const refAddress = useStore((store) => store.refAddress);
-  const setDraggedTask = useStore((store) => store.setDraggedTask);
-  const deleteTask = useStore((store) => store.deleteTask);
   const setDroppable = useStore((store) => store.setDroppable);
   const setDragging = useStore((store) => store.setDragging);
+  const setLongtap = useStore((store) => store.setLongtap);
   const moveTask = useStore((store) => store.moveTask);
-  const draggedTask = useStore((store) => store.draggedTask);
 
   const [taskStyle, setTaskStyle] = useState({});
+  const [hasAction, setAction] = useState(true);
+  useEffect(() => {
+    if (!hasAction) {
+      longtapTimer = setTimeout(() => {
+        setAction(true);
+        setLongtap({ title: task.title, state: state });
+      }, 1000);
+    }
+    if (hasAction) {
+      clearTimeout(longtapTimer);
+    }
+  }, [hasAction]);
 
   const taskRef = useRef(null);
   function dragStart(e) {
     setDragging(true);
+    setAction(false);
+    console.log("started");
   }
-  function drag(e) {
+  function drag(e, touch) {
     document.body.style.overflow = "hidden";
-    // move task with mouse pointer
-    setTaskStyle({
-      position: "absolute",
-      left: e.touches[0].clientX - taskRef.current.clientWidth / 2,
-      top: e.touches[0].pageY - taskRef.current.clientHeight / 2,
-    });
+    setAction(true);
+    console.log("moved");
 
-    const curPosX = e.touches[0].clientX;
-    const curPosY = e.touches[0].clientY;
+    // move task with mouse pointer
+    // console.log(e);
+
+    let curPosX;
+    let curPosY;
+
+    if (touch) {
+      setTaskStyle({
+        position: "absolute",
+        left: e.touches[0].clientX - taskRef.current.clientWidth / 2,
+        top: e.touches[0].pageY - taskRef.current.clientHeight / 2,
+        boxShadow: "0px 3px 3px 3px rgba(41, 41, 41, 0.452)",
+      });
+      curPosX = e.touches[0].clientX;
+      curPosY = e.touches[0].clientY;
+    } else {
+      setTaskStyle({
+        position: "absolute",
+        left: e.clientX - taskRef.current.clientWidth / 2,
+        top: e.pageY - taskRef.current.clientHeight / 2,
+        boxShadow: "0px 3px 3px 3px rgba(41, 41, 41, 0.452)",
+      });
+      curPosX = e.clientX;
+      curPosY = e.clientY;
+    }
+
     if (
       refAddress.plannedRef[0].top < curPosY &&
       curPosY < refAddress.plannedRef[0].bottom &&
@@ -55,10 +88,21 @@ export default function Task({ title, state }) {
     }
     e.stopPropagation();
   }
-  function dropped(e) {
+  function dropped(e, touch) {
+    setAction(true);
     document.body.style.overflow = "auto";
-    const curPosX = e.changedTouches[0].clientX;
-    const curPosY = e.changedTouches[0].clientY;
+
+    let curPosX;
+    let curPosY;
+
+    if (touch) {
+      curPosX = e.changedTouches[0].clientX;
+      curPosY = e.changedTouches[0].clientY;
+    } else {
+      curPosX = e.clientX;
+      curPosY = e.clientY;
+    }
+
     Object.values(refAddress).forEach((items) => {
       const item = items[0];
       if (
@@ -70,7 +114,6 @@ export default function Task({ title, state }) {
         moveTask(task.title, item.state);
       }
     });
-    setDraggedTask(null);
     setDroppable(null);
     setTaskStyle({});
     setDragging(false);
@@ -80,22 +123,27 @@ export default function Task({ title, state }) {
       ref={taskRef}
       className="task"
       draggable
-      onDragStart={() => {
-        setDraggedTask(task.title);
+      onDragStart={(e) => {
+        dragStart(e, false);
       }}
-      onTouchStart={dragStart}
-      onTouchMove={drag}
-      onTouchEnd={dropped}
+      onDrag={(e) => {
+        drag(e, false);
+      }}
+      onDragEnd={(e) => {
+        dropped(e, false);
+      }}
+      onTouchStart={(e) => {
+        dragStart(e, true);
+      }}
+      onTouchMove={(e) => {
+        drag(e, true);
+      }}
+      onTouchEnd={(e) => {
+        dropped(e, true);
+      }}
       style={taskStyle}
     >
-      <p>{refAddress?.plannedRef[0]?.state || "und"}</p>
       <div>{task.title}</div>
-      <div className="bottomWrapper">
-        <div>
-          <button onClick={() => deleteTask(task.title)}>Remove</button>
-        </div>
-        <div className={classNames("status", task.state)}>{task.state}</div>
-      </div>
     </div>
   );
 }
