@@ -5,10 +5,10 @@ function App() {
   const state = ["PLANNED", "ONGOING", "DONE"];
   return (
     <div className="App">
-      <Transport state={state} />
       {state.map((item) => (
         <Column state={item} key={item} />
       ))}
+      <Transport state={state} />
     </div>
   );
 }

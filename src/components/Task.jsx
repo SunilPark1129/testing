@@ -87,7 +87,7 @@ export default function Task({ title, state }) {
       onTouchEnd={dropped}
       style={taskStyle}
     >
-      <p>{refAddress.plannedRef[0].state}</p>
+      <p>{refAddress?.plannedRef[0]?.state || "und"}</p>
       <div>{task.title}</div>
       <div className="bottomWrapper">
         <div>
