@@ -22,16 +22,17 @@ export default function Task({ title, state }) {
     setDragging(true);
   }
   function drag(e) {
+    console.log("start", e.touches[0].clientX);
     document.body.style.overflow = "hidden";
     // move task with mouse pointer
     setTaskStyle({
       position: "absolute",
-      left: e.changedTouches[0].clientX - taskRef.current.clientWidth / 2,
-      top: e.changedTouches[0].pageY - taskRef.current.clientHeight / 2,
+      left: e.touches[0].clientX - taskRef.current.clientWidth / 2,
+      top: e.touches[0].pageY - taskRef.current.clientHeight / 2,
     });
 
-    const curPosX = e.changedTouches[0].clientX;
-    const curPosY = e.changedTouches[0].clientY;
+    const curPosX = e.touches[0].clientX;
+    const curPosY = e.touches[0].clientY;
     if (
       refAddress.plannedRef[0].top < curPosY &&
       curPosY < refAddress.plannedRef[0].bottom &&
@@ -55,6 +56,8 @@ export default function Task({ title, state }) {
     }
   }
   function dropped(e) {
+    console.log(e);
+    console.log("done", e.changedTouches[0].clientX);
     document.body.style.overflow = "auto";
     const curPosX = e.changedTouches[0].clientX;
     const curPosY = e.changedTouches[0].clientY;
