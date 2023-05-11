@@ -4,7 +4,7 @@ import classNames from "classnames";
 import "./Column.css";
 import Task from "./Task";
 
-export default function Column({ state }) {
+export default function Column({ state, currentIdx }) {
   const [text, setText] = useState("");
   const [open, setOpen] = useState(false);
 
@@ -13,6 +13,7 @@ export default function Column({ state }) {
   });
 
   const allTasks = useStore((store) => {
+    console.log(store.tasks);
     return store.tasks.map((task) => task.title);
   });
 
@@ -25,7 +26,14 @@ export default function Column({ state }) {
         <button onClick={() => setOpen(true)}>Add</button>
       </div>
       {tasks.map((task) => {
-        return <Task title={task.title} key={task.title} state={state} />;
+        return (
+          <Task
+            title={task.title}
+            key={task.title}
+            state={state}
+            currentIdx={currentIdx}
+          />
+        );
       })}
       {open && (
         <div className="Modal">

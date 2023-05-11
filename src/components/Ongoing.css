@@ -1,0 +1,24 @@
+.ongoing {
+  position: absolute;
+  display: flex;
+  pointer-events: none;
+  width: 100%;
+  top: 0;
+  height: 100%;
+  align-items: center;
+}
+
+.ongoing__child {
+  position: absolute;
+  margin: auto 0;
+}
+
+.ongoing__child--left {
+  left: -1.5rem;
+  transform: translateX(-100%);
+}
+
+.ongoing__child--right {
+  right: -1.5rem;
+  transform: translateX(100%);
+}

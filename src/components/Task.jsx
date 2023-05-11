@@ -2,9 +2,10 @@ import classNames from "classnames";
 import "./Task.css";
 import { useStore } from "../store";
 import { useState, useRef, useEffect } from "react";
-
+import Ongoing from "./Ongoing";
 let longtapTimer;
-export default function Task({ title, state }) {
+export default function Task({ title, state, currentIdx }) {
+  const fullState = ["PLANNED", "ONGOING", "DONE"];
   const task = useStore((store) =>
     store.tasks.find((task) => task.title === title)
   );
@@ -13,9 +14,15 @@ export default function Task({ title, state }) {
   const setDragging = useStore((store) => store.setDragging);
   const setLongtap = useStore((store) => store.setLongtap);
   const moveTask = useStore((store) => store.moveTask);
+  const dragPos = useStore((store) => store.dargPost);
+  const setDragPos = useStore((store) => store.setDargPost);
 
   const [taskStyle, setTaskStyle] = useState({});
   const [hasAction, setAction] = useState(true);
+  const [pos, setPos] = useState(0);
+
+  const [hasDragged, setDragged] = useState(false);
+
   useEffect(() => {
     if (!hasAction) {
       longtapTimer = setTimeout(() => {
@@ -26,124 +33,77 @@ export default function Task({ title, state }) {
     if (hasAction) {
       clearTimeout(longtapTimer);
     }
+    console.log(hasAction);
   }, [hasAction]);
 
   const taskRef = useRef(null);
   function dragStart(e) {
-    setDragging(true);
-    setAction(false);
-    console.log("started");
+    // setAction(false);
+    setDragged(true);
   }
-  function drag(e, touch) {
-    document.body.style.overflow = "hidden";
-    setAction(true);
-    console.log("moved");
-
-    // move task with mouse pointer
-    // console.log(e);
-
-    let curPosX;
-    let curPosY;
-
-    if (touch) {
+  function drag(e) {
+    if (hasDragged) {
+      document.body.style.overflow = "hidden";
+      // setDragging(true);
+      setAction(true);
+      // const a = { color: #a1d8a6 };
+      const bg =
+        (pos < 0 && currentIdx === 0) || (pos > 0 && currentIdx === 2)
+          ? "#f88c8c"
+          : `#fff`;
+      const setbg = `rgb(${(Math.abs(pos) * -1) / 5 + 255}, 255, 255)`;
+      setPos((prev) => prev + e.movementX);
       setTaskStyle({
-        position: "absolute",
-        left: e.touches[0].clientX - taskRef.current.clientWidth / 2,
-        top: e.touches[0].pageY - taskRef.current.clientHeight / 2,
-        boxShadow: "0px 3px 3px 3px rgba(41, 41, 41, 0.452)",
+        left: pos,
+        background: bg,
+        transitionDuration: "0s",
       });
-      curPosX = e.touches[0].clientX;
-      curPosY = e.touches[0].clientY;
-    } else {
-      setTaskStyle({
-        position: "absolute",
-        left: e.clientX - taskRef.current.clientWidth / 2,
-        top: e.pageY - taskRef.current.clientHeight / 2,
-        boxShadow: "0px 3px 3px 3px rgba(41, 41, 41, 0.452)",
-      });
-      curPosX = e.clientX;
-      curPosY = e.clientY;
-    }
-
-    if (
-      refAddress.plannedRef[0].top < curPosY &&
-      curPosY < refAddress.plannedRef[0].bottom &&
-      window.innerWidth - refAddress.plannedRef[0].width < curPosX
-    ) {
-      setDroppable("PLANNED");
-    } else if (
-      refAddress.ongoingRef[0].top < curPosY &&
-      curPosY < refAddress.ongoingRef[0].bottom &&
-      window.innerWidth - refAddress.ongoingRef[0].width < curPosX
-    ) {
-      setDroppable("ONGOING");
-    } else if (
-      refAddress.doneRef[0].top < curPosY &&
-      curPosY < refAddress.doneRef[0].bottom &&
-      window.innerWidth - refAddress.doneRef[0].width < curPosX
-    ) {
-      setDroppable("DONE");
-    } else {
-      setDroppable(null);
     }
     e.stopPropagation();
   }
-  function dropped(e, touch) {
+  function dropped(e) {
     setAction(true);
     document.body.style.overflow = "auto";
+    setDragged(false);
 
-    let curPosX;
-    let curPosY;
-
-    if (touch) {
-      curPosX = e.changedTouches[0].clientX;
-      curPosY = e.changedTouches[0].clientY;
-    } else {
-      curPosX = e.clientX;
-      curPosY = e.clientY;
+    if (pos > 150 && currentIdx !== 2) {
+      console.log("right");
+      moveTask(title, fullState[currentIdx + 1]);
     }
 
-    Object.values(refAddress).forEach((items) => {
-      const item = items[0];
-      if (
-        item.top < curPosY &&
-        curPosY < item.bottom &&
-        window.innerWidth - item.width < curPosX
-      ) {
-        if (state === item.state) return;
-        moveTask(task.title, item.state);
-      }
+    if (pos < -150 && currentIdx !== 0) {
+      console.log("left");
+      moveTask(title, fullState[currentIdx - 1]);
+    }
+
+    resetPos();
+  }
+  function resetPos() {
+    setPos(0);
+    setTaskStyle({
+      left: 0,
+      transitionDuration: "1s",
     });
-    setDroppable(null);
-    setTaskStyle({});
-    setDragging(false);
   }
   return (
-    <div
-      ref={taskRef}
-      className="task"
-      draggable
-      onDragStart={(e) => {
-        dragStart(e, false);
-      }}
-      onDrag={(e) => {
-        drag(e, false);
-      }}
-      onDragEnd={(e) => {
-        dropped(e, false);
-      }}
-      onTouchStart={(e) => {
-        dragStart(e, true);
-      }}
-      onTouchMove={(e) => {
-        drag(e, true);
-      }}
-      onTouchEnd={(e) => {
-        dropped(e, true);
-      }}
-      style={taskStyle}
-    >
-      <div>{task.title}</div>
+    <div className="task-box">
+      <div
+        ref={taskRef}
+        className="task"
+        onPointerDown={(e) => {
+          dragStart(e);
+        }}
+        onPointerMove={(e) => {
+          drag(e);
+        }}
+        onPointerUp={(e) => {
+          dropped(e);
+        }}
+        style={taskStyle}
+      >
+        <div>{task.title}</div>
+      </div>
+      {/* <Ongoing /> */}
     </div>
   );
 }

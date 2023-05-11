@@ -6,11 +6,11 @@ function App() {
   const state = ["PLANNED", "ONGOING", "DONE"];
   return (
     <div className="App">
-      {state.map((item) => (
-        <Column state={item} key={item} />
+      {state.map((item, idx) => (
+        <Column state={item} key={item} currentIdx={idx} />
       ))}
       <Update />
-      <Transport state={state} />
+      {/* <Transport state={state} /> */}
     </div>
   );
 }
