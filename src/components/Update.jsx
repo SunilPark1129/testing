@@ -16,10 +16,10 @@ export default function Update() {
 
   useEffect(() => {
     if (isLongtap) {
-      console.log("here?");
+      //   console.log("here?");
       document.body.style.overflow = "hidden";
     } else {
-      console.log("no?");
+      //   console.log("no?");
       document.body.style.overflow = "auto";
     }
   }, [isLongtap]);

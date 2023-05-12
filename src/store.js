@@ -8,6 +8,7 @@ const store = (set) => ({
   droppable: null,
   isDragging: false,
   isLongtap: false,
+  optionOpen: null,
   reNew: () => set((store) => ({ tasks: [] })),
   addTask: (title, state) =>
     set((store) => ({ tasks: [...store.tasks, { title, state }] })),
@@ -15,6 +16,7 @@ const store = (set) => ({
     set((store) => ({
       tasks: store.tasks.filter((task) => task.title !== title),
     })),
+  optionOpenTask: (title) => set((store) => ({ optionOpen: title })),
   editTask: (title, state, newVal) =>
     set((store) => ({
       tasks: store.tasks.map((task) =>

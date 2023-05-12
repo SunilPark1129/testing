@@ -13,7 +13,6 @@ export default function Column({ state, currentIdx }) {
   });
 
   const allTasks = useStore((store) => {
-    console.log(store.tasks);
     return store.tasks.map((task) => task.title);
   });
 

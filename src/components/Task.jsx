@@ -3,55 +3,54 @@ import "./Task.css";
 import { useStore } from "../store";
 import { useState, useRef, useEffect } from "react";
 import Ongoing from "./Ongoing";
-let longtapTimer;
+let tapTimer;
 export default function Task({ title, state, currentIdx }) {
   const fullState = ["PLANNED", "ONGOING", "DONE"];
   const task = useStore((store) =>
     store.tasks.find((task) => task.title === title)
   );
-  const refAddress = useStore((store) => store.refAddress);
-  const setDroppable = useStore((store) => store.setDroppable);
-  const setDragging = useStore((store) => store.setDragging);
-  const setLongtap = useStore((store) => store.setLongtap);
+
   const moveTask = useStore((store) => store.moveTask);
-  const dragPos = useStore((store) => store.dargPost);
-  const setDragPos = useStore((store) => store.setDargPost);
+  const optionOpenTask = useStore((store) => store.optionOpenTask);
+  const optionOpen = useStore((store) => store.optionOpen);
 
   const [taskStyle, setTaskStyle] = useState({});
-  const [hasAction, setAction] = useState(true);
   const [pos, setPos] = useState(0);
 
   const [hasDragged, setDragged] = useState(false);
-
-  useEffect(() => {
-    if (!hasAction) {
-      longtapTimer = setTimeout(() => {
-        setAction(true);
-        setLongtap({ title: task.title, state: state });
-      }, 500);
-    }
-    if (hasAction) {
-      clearTimeout(longtapTimer);
-    }
-    console.log(hasAction);
-  }, [hasAction]);
-
-  function vibFn() {
-    navigator.vibrate(50);
-  }
+  const [timer, setTimer] = useState(false);
 
   const taskRef = useRef(null);
+
+  function cancelTimer() {
+    clearTimeout(tapTimer);
+  }
+
+  function detectDouble() {
+    if (timer) {
+      console.log("db");
+      clearTimeout(tapTimer);
+      optionOpenTask(title);
+    }
+
+    if (!timer) {
+      setTimer(true);
+      tapTimer = setTimeout(() => {
+        console.log("canceled");
+        optionOpenTask(null);
+        setTimer(false);
+      }, 500);
+    }
+  }
+
   function dragStart(e) {
-    vibFn();
-    // setAction(false);
+    e.preventDefault();
     setDragged(true);
+    detectDouble();
   }
   function drag(e) {
     if (hasDragged) {
       document.body.style.overflow = "hidden";
-      // setDragging(true);
-      setAction(true);
-      // const a = { color: #a1d8a6 };
       const bg =
         (pos < 0 && currentIdx === 0) || (pos > 0 && currentIdx === 2)
           ? "#f88c8c"
@@ -67,17 +66,13 @@ export default function Task({ title, state, currentIdx }) {
     e.stopPropagation();
   }
   function dropped(e) {
-    setAction(true);
     document.body.style.overflow = "auto";
     setDragged(false);
-
     if (pos > 150 && currentIdx !== 2) {
-      console.log("right");
       moveTask(title, fullState[currentIdx + 1]);
     }
 
     if (pos < -150 && currentIdx !== 0) {
-      console.log("left");
       moveTask(title, fullState[currentIdx - 1]);
     }
 
@@ -108,7 +103,25 @@ export default function Task({ title, state, currentIdx }) {
       >
         <div>{task.title}</div>
       </div>
-      {/* <Ongoing /> */}
+      <div
+        style={{
+          height: optionOpen === title ? "2rem" : 0,
+          opacity: optionOpen === title ? 1 : 0,
+          pointerEvents: optionOpen === title ? "auto" : "none",
+          transitionProperty: "height, opacity",
+          transitionDuration: ".3s",
+        }}
+      >
+        <button
+          onClick={() => {
+            console.log("here");
+            setTimer(false);
+            optionOpenTask(null);
+          }}
+        >
+          Hello
+        </button>
+      </div>
     </div>
   );
 }
