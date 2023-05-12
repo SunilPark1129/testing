@@ -40,9 +40,8 @@ export default function Task({ title, state, currentIdx }) {
   function dragStart(e) {
     // setAction(false);
     setDragged(true);
-    if (windows.navigator && windows.navigator.vibrate) {
-      navigator.vibrate(100);
-    }
+
+    navigator.vibrate(100);
   }
   function drag(e) {
     if (hasDragged) {
