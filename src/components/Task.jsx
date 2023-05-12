@@ -36,12 +36,15 @@ export default function Task({ title, state, currentIdx }) {
     console.log(hasAction);
   }, [hasAction]);
 
+  function vibFn() {
+    navigator.vibrate(50);
+  }
+
   const taskRef = useRef(null);
   function dragStart(e) {
+    vibFn();
     // setAction(false);
     setDragged(true);
-
-    navigator.vibrate(100);
   }
   function drag(e) {
     if (hasDragged) {
