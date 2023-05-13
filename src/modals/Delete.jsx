@@ -77,6 +77,9 @@ export default function Delete({ closeModal }) {
 
   return (
     <div className="modal modal-add" onKeyUp={keyupHandler}>
+      <header>
+        <p>Delete Items</p>
+      </header>
       <div className="modal-input-box">
         <label>
           <input

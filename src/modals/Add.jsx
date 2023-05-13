@@ -54,6 +54,9 @@ export default function Add({ closeModal }) {
 
   return (
     <div className="modal modal-add" onKeyUp={keyupHandler}>
+      <header>
+        <p>Add Items</p>
+      </header>
       <div className="modal-input-box">
         {["item", "category"].map((item) => (
           <label key={item + " -item"}>

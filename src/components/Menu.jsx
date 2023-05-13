@@ -8,6 +8,23 @@ import "./Menu.css";
 
 import { useStore } from "../store";
 
+import imgAdd from "../assets/plus.svg";
+import add1 from "../assets/plus-square.svg";
+import add2 from "../assets/plus-circle.svg";
+
+import imgBox from "../assets/box.svg";
+
+import imgMinus from "../assets/minus.svg";
+import minus1 from "../assets/minus-square.svg";
+import minus2 from "../assets/minus-circle.svg";
+
+import imgBar from "../assets/align-justify.svg";
+import trash from "../assets/trash-2.svg";
+
+import imgEdit from "../assets/edit-2.svg";
+
+import imgHelp from "../assets/help-circle.svg";
+
 export default function Menu() {
   const reNew = useStore((store) => store.reNew);
   const reNewCate = useStore((store) => store.reNewCate);
@@ -60,36 +77,44 @@ export default function Menu() {
   }
 
   return (
-    <div>
-      <button
-        onClick={() => {
-          reNew();
-        }}
-      >
-        renew
-      </button>
-      <button
-        onClick={() => {
-          reNewCate();
-        }}
-      >
-        renewCate
-      </button>
-      <button name={"add"} onClick={onClickHandler}>
-        ADD
-      </button>
-      <button name={"delete"} onClick={onClickHandler}>
-        DELETE
-      </button>
-      <button name={"edit"} onClick={onClickHandler}>
-        EDIT
-      </button>
-      <button name={"plug"} onClick={onClickHandler}>
-        PLUG
-      </button>
-      <button name={"check"} onClick={onClickHandler}>
-        CHECK
-      </button>
+    <div className="menu">
+      <div className="menu-lists">
+        <img
+          src={imgAdd}
+          alt="add"
+          name={"add"}
+          onClick={onClickHandler}
+          title="add items"
+        />
+        <img
+          src={imgMinus}
+          alt="delete"
+          name={"delete"}
+          onClick={onClickHandler}
+          title="delete items"
+        />
+        <img
+          src={imgEdit}
+          alt="edit"
+          name={"edit"}
+          onClick={onClickHandler}
+          title="edit items"
+        />
+        <img
+          src={imgBox}
+          alt="plug"
+          name={"plug"}
+          onClick={onClickHandler}
+          title="set categories"
+        />
+        <img src={imgHelp} alt="help" name="help" title="learn how to use" />
+        <img
+          src={imgBar}
+          name={"home"}
+          alt="home menu"
+          title="go to homepage"
+        />
+      </div>
       {openModal.name ? (
         <div className="bg-dark" onClick={closeModal}></div>
       ) : null}

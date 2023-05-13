@@ -13,6 +13,9 @@ export default function Plug({ closeModal }) {
 
   function onChangeHandler(e) {
     const { value } = e.target;
+    if (value === "plug-out") {
+      setModalOpen("item");
+    }
     setInputOptions(value);
   }
 
@@ -89,6 +92,9 @@ export default function Plug({ closeModal }) {
 
   return (
     <div className="modal modal-add" onKeyUp={keyupHandler}>
+      <header>
+        <p>Plugin Categories</p>
+      </header>
       <div className="modal-input-box">
         {["plug-in", "plug-out"].map((item) => (
           <label key={item + " -item"}>
@@ -104,11 +110,21 @@ export default function Plug({ closeModal }) {
       </div>
       <div className="modal-box">
         <div>
-          <button onClick={modalClickHandler} name="item">
+          <button
+            onClick={modalClickHandler}
+            name="item"
+            style={{
+              backgroundColor:
+                modalOpen === "item" ? "#cdd5eb" : "rgb(234, 236, 236)",
+              border:
+                modalOpen === "item"
+                  ? "1px solid rgba(56, 56, 56, 0.486)"
+                  : "1px dashed rgba(34, 34, 34, 0.479)",
+            }}
+          >
             Select Items
           </button>
           <p>
-            -
             {Object.keys(checkItems)
               .filter((item) => checkItems[item])
               .join(", ")}
@@ -116,10 +132,21 @@ export default function Plug({ closeModal }) {
         </div>
         {inputOptions === "plug-in" ? (
           <div>
-            <button onClick={modalClickHandler} name="category">
+            <button
+              onClick={modalClickHandler}
+              name="category"
+              style={{
+                backgroundColor:
+                  modalOpen === "category" ? "#cdd5eb" : "rgb(234, 236, 236)",
+                border:
+                  modalOpen === "category"
+                    ? "1px solid rgba(56, 56, 56, 0.486)"
+                    : "1px dashed rgba(34, 34, 34, 0.479)",
+              }}
+            >
               Select Category
             </button>
-            <p>-{checkCategory}</p>
+            <p>{checkCategory}</p>
           </div>
         ) : null}
       </div>

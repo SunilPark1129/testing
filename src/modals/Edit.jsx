@@ -62,6 +62,9 @@ export default function Edit({ closeModal }) {
 
   return (
     <div className="modal modal-add" onKeyUp={keyupHandler}>
+      <header>
+        <p>Edit Items</p>
+      </header>
       <div className="modal-input-box">
         {["item", "category"].map((item) => (
           <label key={item + " -item"}>
@@ -77,8 +80,8 @@ export default function Edit({ closeModal }) {
         ))}
       </div>
       {displayItems()}
-      <div className="modal-input-text-box">
-        <p>Rename {inputOptions.radio}</p>
+      <div className="modal-input-box text">
+        <p>Rename</p>
         <input
           type="text"
           value={inputOptions.title}
