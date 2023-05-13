@@ -9,17 +9,12 @@ import "./Menu.css";
 import { useStore } from "../store";
 
 import imgAdd from "../assets/plus.svg";
-import add1 from "../assets/plus-square.svg";
-import add2 from "../assets/plus-circle.svg";
 
 import imgBox from "../assets/box.svg";
 
 import imgMinus from "../assets/minus.svg";
-import minus1 from "../assets/minus-square.svg";
-import minus2 from "../assets/minus-circle.svg";
 
 import imgBar from "../assets/align-justify.svg";
-import trash from "../assets/trash-2.svg";
 
 import imgEdit from "../assets/edit-2.svg";
 
