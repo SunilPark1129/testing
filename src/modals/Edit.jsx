@@ -22,6 +22,13 @@ export default function Edit({ closeModal }) {
     }));
   }
 
+  function keyupHandler(e) {
+    if (e.keyCode === 13) {
+      e.preventDefault();
+      submitHandler();
+    }
+  }
+
   function displayItems() {
     const items = inputOptions.item === "item" ? [...tasks] : [...categories];
     return (
@@ -54,7 +61,7 @@ export default function Edit({ closeModal }) {
   }
 
   return (
-    <div className="modal modal-add">
+    <div className="modal modal-add" onKeyUp={keyupHandler}>
       <div className="modal-input-box">
         {["item", "category"].map((item) => (
           <label key={item + " -item"}>

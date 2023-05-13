@@ -33,6 +33,13 @@ export default function Plug({ closeModal }) {
     setModalOpen(name);
   }
 
+  function keyupHandler(e) {
+    if (e.keyCode === 13) {
+      e.preventDefault();
+      submitHandler();
+    }
+  }
+
   function displayItems() {
     const items = modalOpen === "item" ? [...tasks] : [...categories];
     if (modalOpen) {
@@ -81,7 +88,7 @@ export default function Plug({ closeModal }) {
   }
 
   return (
-    <div className="modal modal-add">
+    <div className="modal modal-add" onKeyUp={keyupHandler}>
       <div className="modal-input-box">
         {["plug-in", "plug-out"].map((item) => (
           <label key={item + " -item"}>

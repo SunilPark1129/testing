@@ -40,8 +40,15 @@ export default function Add({ closeModal }) {
     closeModal();
   }
 
+  function keyupHandler(e) {
+    if (e.keyCode === 13) {
+      e.preventDefault();
+      submitHandler();
+    }
+  }
+
   return (
-    <div className="modal modal-add">
+    <div className="modal modal-add" onKeyUp={keyupHandler}>
       <div className="modal-input-box">
         {["item", "category"].map((item) => (
           <label key={item + " -item"}>
@@ -72,11 +79,6 @@ export default function Add({ closeModal }) {
           ))}
         </div>
       ) : null}
-      {/* <div className="modal-input-box">
-        <div>N</div>
-        <button>Set Category</button>
-        <p>-</p>
-      </div> */}
       <div className="modal-input-box">
         <label>
           Title

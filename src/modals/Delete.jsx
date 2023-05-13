@@ -68,8 +68,15 @@ export default function Delete({ closeModal }) {
     closeModal();
   }
 
+  function keyupHandler(e) {
+    if (e.keyCode === 13) {
+      e.preventDefault();
+      submitHandler();
+    }
+  }
+
   return (
-    <div className="modal modal-add">
+    <div className="modal modal-add" onKeyUp={keyupHandler}>
       <div className="modal-input-box">
         <label>
           <input
