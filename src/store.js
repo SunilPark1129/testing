@@ -2,36 +2,57 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
 const store = (set) => ({
-  refAddress: null,
   tasks: [],
-  draggedTask: null,
-  droppable: null,
-  isDragging: false,
-  isLongtap: false,
-  optionOpen: null,
+  categories: [],
   reNew: () => set((store) => ({ tasks: [] })),
-  addTask: (title, state) =>
-    set((store) => ({ tasks: [...store.tasks, { title, state }] })),
-  deleteTask: (title) =>
+  reNewCate: () => set((store) => ({ categories: [] })),
+  addTask: (title, state, category) =>
+    set((store) => ({ tasks: [...store.tasks, { title, state, category }] })),
+  addCategoryTask: (title) =>
     set((store) => ({
-      tasks: store.tasks.filter((task) => task.title !== title),
+      categories: [...store.categories, { title: title }],
     })),
-  optionOpenTask: (title) => set((store) => ({ optionOpen: title })),
-  editTask: (title, state, newVal) =>
+  deleteTask: (array) =>
+    set((store) => ({
+      tasks: store.tasks.filter((task) => !array.includes(task.title)),
+    })),
+  deleteCategory: (array) =>
     set((store) => ({
       tasks: store.tasks.map((task) =>
-        task.title === title ? { title: newVal, state } : task
+        array.includes(task.category) ? { ...task, category: null } : task
+      ),
+      categories: store.categories.filter(
+        (task) => !array.includes(task.title)
       ),
     })),
-  setRefAddress: (title) => set({ refAddress: title }),
-  setLongtap: (title) => set({ isLongtap: title }),
-  setDragging: (title) => set({ isDragging: title }),
-  setDraggedTask: (title) => set({ draggedTask: title }),
-  setDroppable: (title) => set({ droppable: title }),
+  pluginCategory: (array, category) =>
+    set((store) => ({
+      tasks: store.tasks.map((task) => {
+        return array.includes(task.title)
+          ? { ...task, category: category }
+          : task;
+      }),
+    })),
+  editTask: (title, newTitle) =>
+    set((store) => ({
+      tasks: store.tasks.map((task) =>
+        task.title === title ? { ...task, title: newTitle } : task
+      ),
+    })),
+  editCategory: (title, newTitle) =>
+    set((store) => ({
+      tasks: store.tasks.map((task) =>
+        task.category === title ? { ...task, category: newTitle } : task
+      ),
+      categories: store.categories.map((task) =>
+        task.title === title ? { ...task, title: newTitle } : task
+      ),
+    })),
+
   moveTask: (title, state) =>
     set((store) => ({
       tasks: store.tasks.map((task) =>
-        task.title === title ? { title, state } : task
+        task.title === title ? { ...task, state } : task
       ),
     })),
 });

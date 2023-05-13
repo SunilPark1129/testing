@@ -1,16 +1,15 @@
 import "./App.css";
 import Column from "./components/Column";
-import Transport from "./components/Transport";
-import Update from "./components/Update";
+import Menu from "./components/Menu";
 function App() {
-  const state = ["PLANNED", "ONGOING", "DONE"];
+  const state = ["planned", "pending", "completed"];
+  const bg = ["rgb(185, 207, 236)", "rgb(194, 167, 167)", "rgb(180, 207, 167)"];
   return (
     <div className="App">
+      <Menu />
       {state.map((item, idx) => (
-        <Column state={item} key={item} currentIdx={idx} />
+        <Column state={item} key={item} currentIdx={idx} bg={bg[idx]} />
       ))}
-      <Update />
-      {/* <Transport state={state} /> */}
     </div>
   );
 }
