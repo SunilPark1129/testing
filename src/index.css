@@ -15,5 +15,6 @@
 
 body {
   overflow: auto;
+  /* background: var(--COLOR-GRAY-DARK); */
   background: var(--COLOR-GRAY);
 }
