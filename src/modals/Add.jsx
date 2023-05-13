@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useStore } from "../store";
 
 export default function Add({ closeModal }) {
@@ -8,6 +8,11 @@ export default function Add({ closeModal }) {
   const categories = useStore((store) =>
     store.categories.map((item) => item.title)
   );
+  const typeRef = useRef(null);
+
+  useEffect(() => {
+    typeRef.current.focus();
+  }, []);
 
   const [inputOptions, setInputOptions] = useState({
     item: "item",
@@ -79,13 +84,14 @@ export default function Add({ closeModal }) {
           ))}
         </div>
       ) : null}
-      <div className="modal-input-box">
+      <div className="modal-input-box text">
         <label>
           Title
           <input
             type="text"
             value={inputOptions.title}
             name="title"
+            ref={typeRef}
             onChange={onChangeHandler}
           />
         </label>

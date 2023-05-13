@@ -78,15 +78,13 @@ export default function Edit({ closeModal }) {
       </div>
       {displayItems()}
       <div className="modal-input-text-box">
-        <label>
-          Rename {inputOptions.radio}
-          <input
-            type="text"
-            value={inputOptions.title}
-            name="title"
-            onChange={onChangeHandler}
-          />
-        </label>
+        <p>Rename {inputOptions.radio}</p>
+        <input
+          type="text"
+          value={inputOptions.title}
+          name="title"
+          onChange={onChangeHandler}
+        />
       </div>
       <div className="modal-btn-box">
         <button onClick={submitHandler}>SUBMIT</button>
