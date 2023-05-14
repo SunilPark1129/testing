@@ -106,7 +106,7 @@ export default function Add({ closeModal }) {
           {status
             ? "Item has been added."
             : status === null
-            ? "Waiting for submit."
+            ? "Waiting for a submit."
             : "Dupplicated title is not acceptable."}
         </span>
       </p>

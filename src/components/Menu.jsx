@@ -3,6 +3,7 @@ import Add from "../modals/Add";
 import Delete from "../modals/Delete";
 import Plug from "../modals/Plug";
 import Edit from "../modals/Edit";
+import Help from "../modals/Help";
 
 import "./Menu.css";
 
@@ -63,6 +64,10 @@ export default function Menu() {
       return <Plug closeModal={closeModal} />;
     }
 
+    if (openModal.name === "help") {
+      return <Help closeModal={closeModal} />;
+    }
+
     if (openModal.name === "check") {
       console.log(tasks);
       console.log(categories);
@@ -102,7 +107,13 @@ export default function Menu() {
           onClick={onClickHandler}
           title="set categories"
         />
-        <img src={imgHelp} alt="help" name="help" title="learn how to use" />
+        <img
+          src={imgHelp}
+          alt="help"
+          name="help"
+          onClick={onClickHandler}
+          title="learn how to use"
+        />
         <img
           src={imgBar}
           name={"home"}
