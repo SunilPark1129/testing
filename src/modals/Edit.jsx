@@ -91,7 +91,7 @@ export default function Edit({ closeModal }) {
       </div>
       <div className="modal-btn-box">
         <button onClick={submitHandler}>SUBMIT</button>
-        <button onClick={closeModal}>CANCEL</button>
+        <button onClick={closeModal}>CLOSE</button>
       </div>
     </div>
   );

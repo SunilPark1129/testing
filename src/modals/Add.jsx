@@ -8,18 +8,15 @@ export default function Add({ closeModal }) {
   const categories = useStore((store) =>
     store.categories.map((item) => item.title)
   );
+  const [status, setStatus] = useState(null);
   const typeRef = useRef(null);
+  const initVal = { item: "item", state: "planned", title: "", category: null };
 
   useEffect(() => {
     typeRef.current.focus();
   }, []);
 
-  const [inputOptions, setInputOptions] = useState({
-    item: "item",
-    state: "planned",
-    title: "",
-    category: null,
-  });
+  const [inputOptions, setInputOptions] = useState(initVal);
 
   function onChangeHandler(e) {
     const { value, name } = e.target;
@@ -34,15 +31,27 @@ export default function Add({ closeModal }) {
     const { item, state, title, category } = inputOptions;
     if (title.trim !== "") {
       if (item === "item") {
-        if (tasks.includes(title)) return;
+        if (tasks.includes(title)) {
+          setStatus(false);
+          return;
+        }
         addTask(title, state, category);
       }
       if (item === "category") {
-        if (categories.includes(title)) return;
+        if (categories.includes(title)) {
+          setStatus(false);
+          return;
+        }
         addCategoryTask(title);
       }
     }
-    closeModal();
+    setStatus(true);
+    setInputOptions((prev) => ({
+      ...prev,
+      title: "",
+    }));
+    typeRef.current.focus();
+    // closeModal();
   }
 
   function keyupHandler(e) {
@@ -87,6 +96,20 @@ export default function Add({ closeModal }) {
           ))}
         </div>
       ) : null}
+      <p>
+        Status -{" "}
+        <span
+          style={{
+            color: `${status ? "green" : status === null ? "black" : "red"}`,
+          }}
+        >
+          {status
+            ? "Item has been added."
+            : status === null
+            ? "Waiting for submit."
+            : "Dupplicated title is not acceptable."}
+        </span>
+      </p>
       <div className="modal-input-box text">
         <label>
           Title
@@ -101,7 +124,7 @@ export default function Add({ closeModal }) {
       </div>
       <div className="modal-btn-box">
         <button onClick={submitHandler}>SUBMIT</button>
-        <button onClick={closeModal}>CANCEL</button>
+        <button onClick={closeModal}>CLOSE</button>
       </div>
     </div>
   );

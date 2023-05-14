@@ -105,7 +105,7 @@ export default function Delete({ closeModal }) {
       {displayItems()}
       <div className="modal-btn-box">
         <button onClick={submitHandler}>SUBMIT</button>
-        <button onClick={closeModal}>CANCEL</button>
+        <button onClick={closeModal}>CLOSE</button>
       </div>
     </div>
   );

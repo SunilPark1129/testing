@@ -153,7 +153,7 @@ export default function Plug({ closeModal }) {
       <div className="modal-item-lists">{displayItems()}</div>
       <div className="modal-btn-box">
         <button onClick={submitHandler}>SUBMIT</button>
-        <button onClick={closeModal}>CANCEL</button>
+        <button onClick={closeModal}>CLOSE</button>
       </div>
     </div>
   );
