@@ -18,7 +18,7 @@ export default function Help({ closeModal }) {
         <li>메뉴에서 3번째 심볼을 클릭하여 리스트의 이름을 바꾸세요.</li>
       </ol>
       <div className="modal__help">
-        <p>자신만의 Todo 리스트를 만들어 보세요.</p>
+        <p>자신만의 PLANNED 리스트를 만들어 보세요.</p>
         <p>
           유저들의 간편한 이용을 위해 이 앱은 손가락을 몇번 흔드는 것만으로도 이
           앱을 쉽게 사용할 수 있도록 개발되었습니다.

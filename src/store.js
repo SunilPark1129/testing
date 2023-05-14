@@ -4,8 +4,7 @@ import { persist } from "zustand/middleware";
 const store = (set) => ({
   tasks: [],
   categories: [],
-  reNew: () => set((store) => ({ tasks: [] })),
-  reNewCate: () => set((store) => ({ categories: [] })),
+  trashData: () => set(() => ({ tasks: [], categories: [] })),
   addTask: (title, state, category) =>
     set((store) => ({ tasks: [...store.tasks, { title, state, category }] })),
   addCategoryTask: (title) =>
@@ -48,7 +47,6 @@ const store = (set) => ({
         task.title === title ? { ...task, title: newTitle } : task
       ),
     })),
-
   moveTask: (title, state) =>
     set((store) => ({
       tasks: store.tasks.map((task) =>

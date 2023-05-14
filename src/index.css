@@ -4,7 +4,8 @@
   --COLOR-GRAY-LIGHT: #d99c98;
   --COLOR-ONGOING: #e6de98;
   --COLOR-DONE: #7dd690;
-  font-family: Arial, Helvetica, sans-serif;
+  /* font-family: Arial, Helvetica, sans-serif; */
+  font-family: sans-serif;
 }
 
 * {
@@ -15,6 +16,5 @@
 
 body {
   overflow: auto;
-  /* background: var(--COLOR-GRAY-DARK); */
   background: var(--COLOR-GRAY);
 }

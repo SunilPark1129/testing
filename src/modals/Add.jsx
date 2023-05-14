@@ -29,7 +29,8 @@ export default function Add({ closeModal }) {
 
   function submitHandler() {
     const { item, state, title, category } = inputOptions;
-    if (title.trim !== "") {
+    if (title.trim() !== "") {
+      console.log(title);
       if (item === "item") {
         if (tasks.includes(title)) {
           setStatus(false);
@@ -44,14 +45,13 @@ export default function Add({ closeModal }) {
         }
         addCategoryTask(title);
       }
+      setStatus(true);
+      setInputOptions((prev) => ({
+        ...prev,
+        title: "",
+      }));
+      typeRef.current.focus();
     }
-    setStatus(true);
-    setInputOptions((prev) => ({
-      ...prev,
-      title: "",
-    }));
-    typeRef.current.focus();
-    // closeModal();
   }
 
   function keyupHandler(e) {

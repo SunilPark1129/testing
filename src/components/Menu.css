@@ -190,3 +190,20 @@
   padding: 0.5rem 1rem;
   font-size: 0.8rem;
 }
+
+.modal__trash {
+  text-align: center;
+}
+
+.modal__trash span {
+  all: unset;
+  color: red;
+}
+
+.modal__trash p {
+  font-size: 0.8rem;
+}
+
+.modal__trash p:last-of-type {
+  font-size: 0.7rem;
+}

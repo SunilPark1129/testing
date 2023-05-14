@@ -4,6 +4,7 @@ import Delete from "../modals/Delete";
 import Plug from "../modals/Plug";
 import Edit from "../modals/Edit";
 import Help from "../modals/Help";
+import Trash from "../modals/Trash";
 
 import "./Menu.css";
 
@@ -20,6 +21,8 @@ import imgBar from "../assets/align-justify.svg";
 import imgEdit from "../assets/edit-2.svg";
 
 import imgHelp from "../assets/help-circle.svg";
+
+import imgTrash from "../assets/trash-2.svg";
 
 export default function Menu() {
   const reNew = useStore((store) => store.reNew);
@@ -66,6 +69,10 @@ export default function Menu() {
 
     if (openModal.name === "help") {
       return <Help closeModal={closeModal} />;
+    }
+
+    if (openModal.name === "trash") {
+      return <Trash closeModal={closeModal} />;
     }
 
     if (openModal.name === "check") {
@@ -115,10 +122,11 @@ export default function Menu() {
           title="learn how to use"
         />
         <img
-          src={imgBar}
-          name={"home"}
-          alt="home menu"
-          title="go to homepage"
+          src={imgTrash}
+          name={"trash"}
+          alt="trash bin"
+          title="delete all datas"
+          onClick={onClickHandler}
         />
       </div>
       {openModal.name ? (
